@@ -1,0 +1,37 @@
+set serveroutput on
+
+declare
+
+cursor datos is
+
+select owner,table_name
+
+  from dba_tables
+
+ where owner='STAGEBA'
+
+  and table_name in ('MZ_TCAT_CREDICHEQUE')
+
+order by table_name;
+
+begin
+
+for f in datos loop
+
+dbms_output.put_line( 'Owner '||f.owner );
+
+dbms_output.put_line( 'Tabla '||f.table_name );
+
+sys.reorga_tabla  (p_table_owner    =>f.owner,
+
+                    p_table_name     =>f.table_name,
+
+                    p_tablespace_name=>'BASIG_DASHBA_DATATS');
+
+end loop;
+
+end;
+
+/
+
+ 
